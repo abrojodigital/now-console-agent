@@ -59,4 +59,5 @@ The exit code is the number of failures.
   drops the BOM, the tests fail.
 - Architecture, invariants and gotchas: [`CLAUDE.md`](CLAUDE.md). Version history:
   [`VERSION-ps-0.8.0.txt`](VERSION-ps-0.8.0.txt).
-- No license file yet: until one is added, all rights are reserved.
+- License: [MIT](LICENSE). The license covers this code only — a NOW console token is issued
+  by NOW and is not part of it.
