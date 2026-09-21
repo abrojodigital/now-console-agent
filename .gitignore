@@ -1,0 +1,9 @@
+# ⚠️ NEVER COMMIT THESE: settings.txt holds live console tokens (a token is a password
+# that lets anyone upload race files as that console). The legacy JSON can hold one too.
+settings.txt
+settings.txt.tmp
+now-console-agent.config.json
+
+# runtime output: machine names, folders, race and rider data
+*.log
+*.log.old

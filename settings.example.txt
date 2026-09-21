@@ -1,0 +1,38 @@
+# -----------------------------------------------------------------
+#  NOW - ajustes del agente de cronometraje   (ARCHIVO DE EJEMPLO)
+#
+#  Copiar este archivo con el nombre  settings.txt  y reemplazar los
+#  codigos de acceso de ejemplo por los reales (NOW entrega uno por
+#  consola). settings.txt NO se sube a git: tiene codigos vivos.
+#
+#  Se edita con el Bloc de notas y se guarda. La ventana del programa
+#  tambien lo edita (carpeta, cada, consola, iniciar) sin tocar el resto.
+#  Las lineas que empiezan con # son comentarios.
+# -----------------------------------------------------------------
+
+# Carpeta donde SKI PRO guarda los archivos Event*.scdb
+# (se puede copiar de SKI PRO: Configuracion local > Directorios >
+#  Directorio de las pruebas. Si termina en \, no importa.)
+carpeta = C:\SkiPro\SkiPro222\Events
+
+# Cada cuantos segundos mira si hay algo nuevo
+cada = 1
+
+# -----------------------------------------------------------------
+#  CONSOLAS
+#  Cada linea 'token =' (con # adelante o sin el) es una consola
+#  posible. El nombre y el vencimiento se leen del comentario que
+#  esta justo arriba, con ESTE formato exacto:
+#      # Nombre - Lugar   (vence AAAA-MM-DD)
+#  La ventana las muestra en una lista desplegable y guarda la
+#  elegida abajo como  consola = <nombre>.
+# -----------------------------------------------------------------
+
+# Consola Ejemplo - Cerro Uno   (vence 2099-12-31)
+# token = nowc_EJEMPLO_REEMPLAZAR_POR_EL_CODIGO_REAL_1
+
+# Consola Ejemplo - Cerro Dos   (vence 2099-12-31)
+# token = nowc_EJEMPLO_REEMPLAZAR_POR_EL_CODIGO_REAL_2
+
+# Nuestro servidor. Normalmente no hace falta tocarlo.
+servidor = https://now-ski.com/api/console/file

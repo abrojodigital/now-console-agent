@@ -1,0 +1,51 @@
+NOW console agent ps-0.8.0
+
+## ps-0.8.0 — 2026-09-21
+
+- **A window instead of a black console.** Pick the console from a dropdown, pick the
+  folder (Buscar…), press Iniciar envío. Status, last send, race line, PC-clock check
+  and the running log are on screen; `settings.txt` is edited by the window itself, in
+  place, and every other line of it — above all the token roster — is left untouched.
+  `start-agent.bat` opens it. `-NoGui` gives the old console output, and `-NoGui -Once`
+  is still the way to test.
+- **The dropdown ends the "two active tokens" mistake.** Every `token =` line in
+  `settings.txt`, active or commented, is a candidate console, named from the
+  `# Name - Place   (vence YYYY-MM-DD)` comment above it. The choice is saved as
+  `consola = <name>`. With two active tokens and no saved choice, nothing is
+  preselected and Iniciar refuses: it never silently picks one. An expired code is
+  flagged in red.
+- **Minimise sends it to the notification area, still sending.** The icon colour is the
+  connection state (green / amber / red / grey) and a balloon says so when the link
+  drops or returns while the window is hidden. The X asks before stopping a live
+  sending, because in ps-0.7.0 closing the window stopped the agent and people expect
+  that. One agent per PC: a second start-agent.bat says so instead of uploading twice.
+- **FIX — a dropped connection killed ps-0.7.0.** In Windows PowerShell 5.1, `2>&1`
+  with `$ErrorActionPreference = "Stop"` throws on the first line curl writes to
+  stderr, and the heartbeat was called outside any try/catch. The very "connection
+  alarm" added in 0.7.0 ended the agent when the link went down. All native calls now
+  go through one wrapper that cannot throw, and the heartbeat is guarded too.
+  Repeated failures are logged once per 30 s instead of once per tick.
+- The engine runs on its own thread (a runspace), so a slow upload never freezes the
+  window. Same protocol as 0.7.0: same endpoint, same fields, same files.
+- The script is now saved as **UTF-8 with BOM** so the Spanish window shows its
+  accents (ps-0.7.0 avoided them; Windows PowerShell 5.1 reads a BOM-less .ps1 as
+  ANSI). `tests\Test-Agent.ps1` fails if the BOM is lost.
+- ⚠️ SERVER: `lib/console-agent.ts` must learn `ps-0.8.0` before this ships, or the
+  reply will keep telling every window it is out of date.
+
+## ps-0.7.0 — 2026-09-21
+
+- **A heartbeat every minute.** Until now the server heard from a console only when
+  the file CHANGED, so "no file for 30 minutes" read exactly the same as "nobody
+  started it" — and on a race morning those are opposite facts. The heartbeat carries
+  no file and writes no row; it marks the token seen, and `/admin/consoles` now says
+  *running · idle 12 min* instead of guessing.
+- **It is also the connection alarm.** While the console is quiet nothing else
+  touches the network, so a link that died at 09:00 would otherwise be discovered by
+  the first racer at 10:00. The agent says so the minute it happens, and again when
+  it returns. Silent otherwise — it must not spoil the waiting line.
+- **Every console's token ships in every copy, all but one commented out.** One zip
+  serves every chrono master: handing the folder to a different timekeeper is moving
+  one `#`, not re-packing. Each line carries the console's name and expiry date. The
+  roster lives in `consoles.json`, which is **gitignored — it holds live tokens**;
+  `consoles.example.json` shows the shape.
